@@ -1,12 +1,13 @@
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('../../models/User');
+const User = require('../../models/user');
+const bcrypt = require('bcrypt');
 
 exports.isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   } else {
+    res.status(301).redirect(process.env.CLIENT_URL);
     throw new Error('signin error');
-    // res.status(301).redirect('/login');
   }
 };
 
@@ -14,7 +15,10 @@ exports.extendSession = (req, res, next) => {
   if (!req.body.remember_me) {
     return next();
   }
-  res.cookie('remember_me', _, { path: '/', maxAge: 604800000 });
+  res.cookie('remember_me', _, {
+    path: '/',
+    maxAge: Number(process.env.ONE_HOUR)
+  });
 
   return next();
 };
@@ -27,28 +31,32 @@ exports.verifyUserData = passport => {
   passport.deserializeUser((user, done) => {
     done(null, user);
   });
-
+  
   passport.use(
     new LocalStrategy(
       {
         usernameField: 'email',
-        passwordField: 'password'
+        passwordField: 'password',
+        session: true
       },
       async (email, password, done) => {
         try {
           const user = await User.findOne({ email });
-          if (!user) {
-            done(null, false, { message: 'Incorrect username.' });
+          if (user) {
+            bcrypt.compare(password, user.password, (err, same) => {
+              if (same) {
+                return done(null, user);
+              } else {
+                done(null, false, { message: '비밀번호가 틀렸습니다.' });
+              }
+            });
+          } else {
+            done(null, false, { message: '가입되지 않은 회원입니다.' });
           }
-          const isValidPassword = await user.validatePassword(password);
-          if (!isValidPassword) {
-            return done(null, false, { message: 'Incorrect password.' });
-          }
-          return done(null, user);
         } catch (err) {
+          console.error(err);
           done(err);
         }
-        done(null, 123);
       }
     )
   );

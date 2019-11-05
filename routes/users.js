@@ -2,12 +2,15 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const passport = require('passport');
+const authorization = require('./middlewares/authentication');
 
+authorization.verifyUserData(passport);
 
 router.post('/signup', async (req, res, next) => {
-  if (req.body.password !== req.body.passwordConf) {
-    throw new Error();
-  }
+  // if (req.body.password !== req.body.passwordConf) {
+  //   throw new Error();
+  // }
   try {
     console.log('Line 8: ', req.body);
     const userData = {
@@ -15,7 +18,7 @@ router.post('/signup', async (req, res, next) => {
       nickname: req.body.nickname,
       password: req.body.password
     };
-    const user = await User.findOne({
+    let user = await User.findOne({
       email: req.body.email
     });
 
@@ -31,23 +34,24 @@ router.post('/signup', async (req, res, next) => {
   }
 });
 
-// router.post(
-//   '/login',
-//   passport.authenticate('local', {
-//     failureRedirect: '/login',
-//     failureFlash: true
-//   }),
-//   authorization.extendSession,
-//   userController.login
-// );
+router.post(
+  '/signin',
+  passport.authenticate('local', { failureFlash: true }),
+  authorization.extendSession,
+  async (req, res, next) => {
+    const user = await User.findOne({ email: req.body.email });
+    const { nickname, email } = user;
+    res.send({ message: 'Success!' });
+  }
+);
 
-router.get('/logout', (req, res, next) => {
+router.get('/signout', (req, res, next) => {
   if (req.session) {
     req.session.destroy(err => {
       if (err) {
         return next(err);
       } else {
-        return res.redirect('/');
+        return res.redirect(process.env.CLIENT_URL);
       }
     });
   }

@@ -3,9 +3,9 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
 const session = require('express-session');
 const logger = require('morgan');
-const sassMiddleware = require('node-sass-middleware');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
@@ -27,18 +27,14 @@ db.once('open', () => {
 const app = express();
 
 app.use(logger('dev'));
-// app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(
-  sassMiddleware({
-    src: path.join(__dirname, 'public'),
-    dest: path.join(__dirname, 'public'),
-    indentedSyntax: true,
-    sourceMap: true
-  })
-);
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
@@ -62,6 +58,7 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+  console.log(err);
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
