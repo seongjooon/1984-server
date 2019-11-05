@@ -41,7 +41,13 @@ router.post(
   async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     const { nickname, email } = user;
-    res.send({ message: 'Success!' });
+    res.send({
+      message: 'Success!',
+      token: jwt.sign(
+        JSON.stringify({ nickname, email }),
+        process.env.SECRET_KEY
+      )
+    });
   }
 );
 

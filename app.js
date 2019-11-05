@@ -25,6 +25,9 @@ db.once('open', () => {
 });
 
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const connectSocket = require('./routes/socket');
 
 app.use(logger('dev'));
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
@@ -66,5 +69,10 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   // res.render('error');
 });
+
+connectSocket(io);
+
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log(`Listen on localhost:${PORT}`));
 
 module.exports = app;
