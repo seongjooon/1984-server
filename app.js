@@ -3,14 +3,19 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
+
+const usersRouter = require('./routes/users');
 
 const db = mongoose.connection;
 mongoose.connect(process.env.DATA_BASE_URL, {
   useNewUrlParser: true,
+  useCreateIndex: true,
   useUnifiedTopology: true
 });
 
@@ -22,6 +27,7 @@ db.once('open', () => {
 const app = express();
 
 app.use(logger('dev'));
+// app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -29,11 +35,24 @@ app.use(
   sassMiddleware({
     src: path.join(__dirname, 'public'),
     dest: path.join(__dirname, 'public'),
-    indentedSyntax: true, // true = .sass and false = .scss
+    indentedSyntax: true,
     sourceMap: true
   })
 );
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'true',
+    cookie: {
+      maxAge: Number(process.env.ONE_HOUR),
+      sameSite: null
+    }
+  })
+);
+
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
