@@ -30,7 +30,12 @@ const io = require('socket.io')(server);
 const connectSocket = require('./routes/socket');
 
 app.use(logger('dev'));
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(
+  cors({
+    origin: [process.env.WEB_CLIENT_DOMAIN, process.env.MOBILE_CLIENT_DOMAIN],
+    credentials: true
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -67,7 +72,6 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  // res.render('error');
 });
 
 connectSocket(io);
