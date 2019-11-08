@@ -4,7 +4,7 @@ const ALL_DEVICES = {};
 
 const findAnotherDevice = (socket, token) => {
   if (DEVICE_QUEUE.length) {
-    console.log('CONNECT!!, CONNECT!!, CONNECT!!');
+    console.log('MULTIPLE CONNECT!!');
     const ANOTHER_DEVICE = DEVICE_QUEUE.pop();
     const SECRET_CODE = token;
 
@@ -17,7 +17,7 @@ const findAnotherDevice = (socket, token) => {
     socket.emit('connecting message', true);
     ANOTHER_DEVICE.emit('connecting message', true);
   } else {
-    console.log('CONNECT!!');
+    console.log('ONE CONNECT!!');
     DEVICE_QUEUE.push(socket);
     socket.emit('connecting message', false);
   }
@@ -36,6 +36,12 @@ const connectSocket = io => {
       const SECRET_CODE = SECRET_CODE_STORAGE[socket.id];
 
       io.to(SECRET_CODE).emit('game start', isStart);
+    });
+
+    socket.on('move airplane', direction => {
+      const SECRET_CODE = SECRET_CODE_STORAGE[socket.id];
+
+      socket.broadcast.to(SECRET_CODE).emit('airplane moving', direction);
     });
 
     socket.on('disconnect', () => {
