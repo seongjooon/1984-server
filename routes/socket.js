@@ -26,6 +26,7 @@ const findAnotherDevice = (socket, token) => {
 const connectSocket = io => {
   io.on('connection', socket => {
     console.log('socket connecting');
+
     socket.on('connect device', token => {
       ALL_DEVICES[socket.id] = socket;
 
@@ -42,6 +43,12 @@ const connectSocket = io => {
       const SECRET_CODE = SECRET_CODE_STORAGE[socket.id];
 
       socket.broadcast.to(SECRET_CODE).emit('airplane moving', direction);
+    });
+
+    socket.on('game over', () => {
+      const SECRET_CODE = SECRET_CODE_STORAGE[socket.id];
+
+      socket.broadcast.to(SECRET_CODE).emit('game over');
     });
 
     socket.on('disconnect', () => {
