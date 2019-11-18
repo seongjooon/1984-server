@@ -11,6 +11,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const usersRouter = require('./routes/users');
+const rankingRouter = require('./routes/ranking');
 
 const db = mongoose.connection;
 mongoose.connect(process.env.DATA_BASE_URL, {
@@ -57,6 +58,7 @@ app.use(
 );
 
 app.use('/users', usersRouter);
+app.use('/ranking', rankingRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

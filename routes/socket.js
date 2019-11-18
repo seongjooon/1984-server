@@ -48,7 +48,19 @@ const connectSocket = io => {
     socket.on('game over', () => {
       const SECRET_CODE = SECRET_CODE_STORAGE[socket.id];
 
-      socket.broadcast.to(SECRET_CODE).emit('game over');
+      socket.broadcast.to(SECRET_CODE).emit('game stop');
+    });
+
+    socket.on('open ranking', () => {
+      const SECRET_CODE = SECRET_CODE_STORAGE[socket.id];
+
+      socket.broadcast.to(SECRET_CODE).emit('ranking open');
+    });
+
+    socket.on('restart game', () => {
+      const SECRET_CODE = SECRET_CODE_STORAGE[socket.id];
+
+      socket.broadcast.to(SECRET_CODE).emit('game restart');
     });
 
     socket.on('disconnect', () => {
