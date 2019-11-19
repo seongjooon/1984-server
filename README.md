@@ -6,6 +6,7 @@
 
 - [Introduction](#Introduction)
 - [Installation](#Installation)
+- [Additional requirement](#Additional-requirement)
 - [Usage](#Usage)
 - [Tech](#Usage)
 - [Chellenges](#Chellenges)
@@ -17,6 +18,7 @@
 
 1945 게임을 모티브로한 게임 웹 어플리케이션. Mobile device를 laptop이나 desktop의 웹상의 화면과 연동해서 게임을 조작 가능.
 
+Click!
 [![simulation-screenshot](simulation-screenshot.png)](https://www.youtube.com/watch?v=3vRajzFeuJg)
 
 ### Installation
@@ -39,7 +41,7 @@ yarn install
 yarn start
 ```
 
-#### - Additional requirement
+### Additional requirement
 
 - Set server url in client
 
