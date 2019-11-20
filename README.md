@@ -2,11 +2,12 @@
 
 ![main-logo](main-logo.png)
 
-## Contents
+>## Contents
 
 - [Introduction](#Introduction)
 - [Installation](#Installation)
-- [Additional requirement](#Additional-requirement)
+- [Requirement](#Requirement)
+- [Features](#Features)
 - [Usage](#Usage)
 - [Tech](#Usage)
 - [Chellenges](#Chellenges)
@@ -14,14 +15,14 @@
 - [Version Control](#Version-Control)
 - [Other tools](#Other-tools)
 
-### Introduction
+>### Introduction
 
 1945 게임을 모티브로한 게임 웹 어플리케이션. Mobile device를 laptop이나 desktop의 웹상의 화면과 연동해서 게임을 조작 가능.
 
 Click!
 [![simulation-screenshot](simulation-screenshot.png)](https://www.youtube.com/watch?v=3vRajzFeuJg)
 
-### Installation
+>### Installation
 
 #### - Client
 
@@ -41,7 +42,7 @@ yarn install
 yarn start
 ```
 
-### Additional requirement
+>### Requirement
 
 - Set server url in client
 
@@ -68,7 +69,13 @@ WEB_CLIENT_DOMAIN=http://localhost:3000
 MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
 ```
 
-### Usage
+>### Features
+
+- Lopcal Passport와 bcrypt라이브러리를 사용해 회원정보 암호화
+- Socket.io를 사용해 Play screen과 Control screen의 연동과 데이터 교환을 이용해 게임 진행(게임 시작, 비행기 조종, 게임 종료, 스코어 확인, 랭킹 확인, 재시작) 가능
+- DOM 대신에 Canvas를 통해 게임 캐릭터들을 표현해서 자연스러운 움직임 표현
+
+>### Usage
 
 1. Laptop or Desktop에서 크롬브라우저(Play screen)에서 주소창에 `ttp://localhost:3000/`를 입력.
    Mobile Device는 Iphone의 Ssfari Browser(Control screen)에서만 지원하므로 브라우저 주소창에 `http://<YOUR_LOCAL_HOST_DOMAIN>:3000/`를 입력.
@@ -79,7 +86,7 @@ MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
 6. Game over Play screen에서 Score 확인 가능.
 7. Control screen으로 Ranking, Restart button을 클릭해서 Play Screen으로 Ranking 확인 가능, 새로 시작 가능.
 
-### Tech
+>### Tech
 
 - Javascript (ES2015+)
 - React, for component based architecture
@@ -92,7 +99,7 @@ MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
 - Socket.IO
 - Sass, for easy to understand stylesheet
 
-### Chellenges
+>### Chellenges
 
 - **Socket.IO 활용의 어려움**
 
@@ -107,7 +114,7 @@ MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
 
   : css를 이용해서 Canvas의 pixel 제어를 통해 화질 관리도 어려웠다.'' 이미지의 크기를 늘일 수록 화질은 떨어지고 줄일수록 화질은 좋아진다.'라는 개념을 적용했다. Canvas의 크기를 늘이고 감싸는 돔을 작게 줄이고 꽉 채우도록 했다.
 
-### Things to do
+>### Things to do
 
 - **Socket의 활용도 증가**
 
@@ -129,12 +136,12 @@ MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
 
   : 2개의 모바일과 하나의 Play screen을 연결하고싶다. Socket을 조금 더 확실하고 세밀하게 공부해서 적용하고 싶다.
 
-### Version Control
+>### Version Control
 
 - git 을 사용.
 - 새로운 브랜치를 생성하고 master 브랜치에 병합.
 
-### Other tools
+>### Other tools
 
 - Notion의 Status를 이용한 task 세분화 및 스케줄 관리
 - Lucidchart를 이용한 Schema design.
