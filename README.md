@@ -17,10 +17,9 @@
 
 >### Introduction
 
-1945 게임을 모티브로한 게임 웹 어플리케이션. Mobile device를 laptop이나 desktop의 웹상의 화면과 연동해서 게임을 조작 가능.
+1945 게임을 모티브로한 게임 웹 어플리케이션. Mobile device를 laptop이나 desktop의 웹상의 화면과 연동해서 게임조작 가능.
 
-Click!
-[![simulation-screenshot](simulation-screenshot.png)](https://www.youtube.com/watch?v=3vRajzFeuJg)
+![simulation-screenshot](1984-simulation.gif)
 
 >### Installation
 
@@ -70,7 +69,6 @@ MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
 ```
 
 >### Features
-
 - Lopcal Passport와 bcrypt라이브러리를 사용해 회원정보 암호화
 - Socket.io를 사용해 Play screen과 Control screen의 연동과 데이터 교환을 이용해 게임 진행(게임 시작, 비행기 조종, 게임 종료, 스코어 확인, 랭킹 확인, 재시작) 가능
 - DOM 대신에 Canvas를 통해 게임 캐릭터들을 표현해서 자연스러운 움직임 표현
@@ -99,7 +97,7 @@ MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
 - Socket.IO
 - Sass, for easy to understand stylesheet
 
->### Chellenges
+>### Challenges
 
 - **Socket.IO 활용의 어려움**
 
@@ -110,9 +108,13 @@ MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
   : obstacle의 갯수만큼 돔을 모두 생성해서 하나씩 rerender하면서 위치값을 변경했다. 모든 obstacle이 이동하는 잦은 랜더링으로 인해 게임의 속도가 현저히 느려졌다.
   해결책을 찾던 중 Canvas를 찾았다. 처음 사용하는 Canvas에 적응이 쉽지 않았다. Canvas로 표현할 내용물들은 돔을 직접 생성하는 것이 아니라 하나의 Canvas 내에서 **그려지는 것**이므로 훨씬 메모리비용이 절감되고 랜더링이 줄어드므로 속도 또한 빨라진다.
 
+- **Canvas API를 활용한 2D Graphics**
+
+  : 게임에서 DOM을 컨트롤한다면 React기반에서 DOM의 상태를 빠르게 바꾸므로 리렌더가 된다. 렌더가 잦아지면서 화면은 버벅거리기 일쑤다. 그래서 Canvas API를 활용해서 Canvas에 해당하는 DOM에만 변경이 있기 때문에 그림을 그리듯이 자연스러운 표현 가능했다.
+
 - **Canvas의 화질 관리의 어려움**
 
-  : css를 이용해서 Canvas의 pixel 제어를 통해 화질 관리도 어려웠다.'' 이미지의 크기를 늘일 수록 화질은 떨어지고 줄일수록 화질은 좋아진다.'라는 개념을 적용했다. Canvas의 크기를 늘이고 감싸는 돔을 작게 줄이고 꽉 채우도록 했다.
+  : css를 이용해서 Canvas의 pixel 제어를 통해 화질 관리도 어려웠다.'이미지의 크기를 늘일 수록 화질은 떨어지고 줄일수록 화질은 좋아진다.'라는 개념을 적용했다. Canvas의 크기를 늘이고 감싸는 돔을 작게 줄이고 꽉 채우도록 했다.
 
 >### Things to do
 
@@ -122,7 +124,7 @@ MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
 
 - **Unit test, test case 추가**
 
-  : Test를 작성하므로써 개발도중 변경사항이 생기거나 새로운 투가적인 코딩이 필요할때 버그를 찾아내서 보와할 수 있다. 그리고 시간이 흐른 후에 리팩토링을 할 경우에도 에러를 뱔견하면서 문제를 해결할 수 있다. 이 경우에는 협업하면서, 기존의 코드를 변경할때 유리하므로 Unit test를 작성하고 싶다.
+  : Test를 작성하므로써 개발도중 변경사항이 생기거나 새로운 추가적인 코딩이 필요할때 버그를 찾아내서 보와할 수 있다. 그리고 시간이 흐른 후에 리팩토링을 할 경우에도 에러를 뱔견하면서 문제를 해결할 수 있다. 이 경우에는 협업하면서, 기존의 코드를 변경할때 유리하므로 Unit test를 작성하고 싶다.
 
 - **E2E test**
 
@@ -135,6 +137,9 @@ MOBILE_CLIENT_DOMAIN="http://<"Input your network domain..">:3000"
 - **Add multiplayer.**
 
   : 2개의 모바일과 하나의 Play screen을 연결하고싶다. Socket을 조금 더 확실하고 세밀하게 공부해서 적용하고 싶다.
+
+- **Deploy**
+  : 프론트엔드는 Netlify로 백엔드는 AWS elastic-beanstalk, CircleCI로 배포자동화까지 하고 싶다.
 
 >### Version Control
 
