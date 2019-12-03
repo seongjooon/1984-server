@@ -10,7 +10,7 @@
 - [Features](#Features)
 - [Usage](#Usage)
 - [Tech](#Usage)
-- [Chellenges](#Chellenges)
+- [Challenges](#Challenges)
 - [Things to do](#Things-to-do)
 - [Version Control](#Version-Control)
 - [Other tools](#Other-tools)
